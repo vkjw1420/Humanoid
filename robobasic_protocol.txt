@@ -1,0 +1,283 @@
+KEY1:
+    ETX  4800,1
+    GOTO 왼쪽턴10
+
+
+    GOTO RX_EXIT
+    '***************	
+KEY2:
+    ETX  4800,2
+
+    보행횟수 = 6
+    GOTO 횟수_전진종종걸음
+
+
+    GOTO RX_EXIT
+    '***************
+KEY3:
+    ETX  4800,3
+
+    GOTO 오른쪽턴10
+
+    GOTO RX_EXIT
+    '***************
+KEY4:
+    ETX  4800,4
+    GOTO 왼쪽턴3
+
+    GOTO RX_EXIT
+    '***************
+KEY5:
+    ETX  4800,5
+
+    J = AD(5)	'적외선거리값 읽기
+    BUTTON_NO = J
+    GOSUB Number_Play
+    GOSUB SOUND_PLAY_CHK
+    GOSUB GOSUB_RX_EXIT
+
+    GOTO RX_EXIT
+    '***************
+KEY6:
+    ETX  4800,6
+    GOTO 오른쪽턴3
+
+
+    GOTO RX_EXIT
+    '***************
+KEY7:
+    ETX  4800,7
+    GOTO 왼쪽턴20
+
+    GOTO RX_EXIT
+    '***************
+KEY8:
+    ETX  4800,8
+    GOTO 전진종종걸음
+
+    GOTO RX_EXIT
+    '***************
+KEY9:
+    ETX  4800,9
+    GOTO 오른쪽턴20
+
+
+    GOTO RX_EXIT
+    '***************
+KEY10: '0
+    ETX  4800,10
+    GOTO 전진달리기50
+
+    GOTO RX_EXIT
+    '***************
+KEY11: ' ▲
+    ETX  4800,11
+
+    GOTO 연속전진
+
+    GOTO RX_EXIT
+    '***************
+KEY12: ' ▼
+    ETX  4800,12
+    GOTO 연속후진
+
+    GOTO RX_EXIT
+    '***************
+KEY13: '▶
+    ETX  4800,13
+    GOTO 오른쪽옆으로70연속
+
+
+    GOTO RX_EXIT
+    '***************
+KEY14: ' ◀
+    ETX  4800,14
+    GOTO 왼쪽옆으로70연속
+
+
+    GOTO RX_EXIT
+    '***************
+KEY15: ' A
+    ETX  4800,15
+    GOTO 왼쪽옆으로20
+
+
+    GOTO RX_EXIT
+    '***************
+KEY16: ' POWER
+    ETX  4800,16
+
+    GOSUB Leg_motor_mode3
+    IF MODE = 0 THEN
+        SPEED 10
+        MOVE G6A,100, 140,  37, 145, 100, 100
+        MOVE G6D,100, 140,  37, 145, 100, 100
+        WAIT
+    ENDIF
+    SPEED 4
+    GOSUB 앉은자세	
+    GOSUB 종료음
+
+    GOSUB GOSUB_RX_EXIT
+KEY16_1:
+
+    IF 모터ONOFF = 1  THEN
+        OUT 52,1
+        DELAY 200
+        OUT 52,0
+        DELAY 200
+    ENDIF
+    ERX 4800,A,KEY16_1
+    ETX  4800,A
+    IF  A = 16 THEN 	'다시 파워버튼을 눌러야만 복귀
+        SPEED 10
+        MOVE G6A,100, 140,  37, 145, 100, 100
+        MOVE G6D,100, 140,  37, 145, 100, 100
+        WAIT
+        GOSUB Leg_motor_mode2
+        GOSUB 기본자세2
+        GOSUB 자이로ON
+        GOSUB All_motor_mode3
+        GOTO RX_EXIT
+    ENDIF
+
+    GOSUB GOSUB_RX_EXIT
+    GOTO KEY16_1
+
+
+
+    GOTO RX_EXIT
+    '***************
+KEY17: ' C
+    ETX  4800,17
+    GOTO 머리왼쪽90도
+
+
+    GOTO RX_EXIT
+    '***************
+KEY18: ' E
+    ETX  4800,18	
+
+    GOSUB 자이로OFF
+    GOSUB 에러음
+KEY18_wait:
+
+    ERX 4800,A,KEY18_wait	
+
+    IF  A = 26 THEN
+        GOSUB 시작음
+        GOSUB 자이로ON
+        GOTO RX_EXIT
+    ENDIF
+
+    GOTO KEY18_wait
+
+
+    GOTO RX_EXIT
+    '***************
+KEY19: ' P2
+    ETX  4800,19
+    GOTO 오른쪽턴60
+
+    GOTO RX_EXIT
+    '***************
+KEY20: ' B	
+    ETX  4800,20
+    GOTO 오른쪽옆으로20
+
+
+    GOTO RX_EXIT
+    '***************
+KEY21: ' △
+    ETX  4800,21
+    GOTO 머리좌우중앙
+
+    GOTO RX_EXIT
+    '***************
+KEY22: ' *	
+    ETX  4800,22
+    GOTO 왼쪽턴45
+
+    GOTO RX_EXIT
+    '***************
+KEY23: ' G
+    ETX  4800,23
+    GOSUB 에러음
+    GOSUB All_motor_mode2
+KEY23_wait:
+
+
+    ERX 4800,A,KEY23_wait	
+
+    IF  A = 26 THEN
+        GOSUB 시작음
+        GOSUB All_motor_mode3
+        GOTO RX_EXIT
+    ENDIF
+
+    GOTO KEY23_wait
+
+
+    GOTO RX_EXIT
+    '***************
+KEY24: ' #
+    ETX  4800,24
+    GOTO 오른쪽턴45
+
+    GOTO RX_EXIT
+    '***************
+KEY25: ' P1
+    ETX  4800,25
+    GOTO 왼쪽턴60
+
+    GOTO RX_EXIT
+    '***************
+KEY26: ' ■
+    ETX  4800,26
+
+    SPEED 5
+    GOSUB 기본자세2	
+    TEMPO 220
+    MUSIC "ff"
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY27: ' D
+    ETX  4800,27
+    GOTO 머리오른쪽90도
+
+
+    GOTO RX_EXIT
+    '***************
+KEY28: ' ◁
+    ETX  4800,28
+    GOTO 머리왼쪽45도
+
+
+    GOTO RX_EXIT
+    '***************
+KEY29: ' □
+    ETX  4800,29
+
+    GOSUB 전방하향80도
+
+    GOTO RX_EXIT
+    '***************
+KEY30: ' ▷
+    ETX  4800,30
+    GOTO 머리오른쪽45도
+
+    GOTO RX_EXIT
+    '***************
+KEY31: ' ▽
+    ETX  4800,31
+    GOSUB 전방하향60도
+
+    GOTO RX_EXIT
+    '***************
+
+KEY32: ' F
+    ETX  4800,32
+    GOTO 후진종종걸음
+    GOTO RX_EXIT
+    '***************
